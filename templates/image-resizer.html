@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        input, button, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; }
+        button { background: #667eea; color: white; border: none; cursor: pointer; }
+        button:hover { background: #5a67d8; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; }
+        #preview { text-align: center; margin-top: 20px; }
+        #preview img { max-width: 100%; max-height: 400px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Image Resizer</h1>
+        <p>Image upload karein aur naya size set karein</p>
+        <input type="file" id="imageInput" accept="image/*">
+        <input type="number" id="widthInput" placeholder="Width (pixels)" value="300">
+        <input type="number" id="heightInput" placeholder="Height (pixels)" value="300">
+        <button onclick="resizeImage()">Resize Image</button>
+        <div id="preview"></div>
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    <script>
+        function resizeImage() {
+            const file = document.getElementById('imageInput').files[0];
+            if (!file) { alert('Please select an image'); return; }
+            const width = parseInt(document.getElementById('widthInput').value);
+            const height = parseInt(document.getElementById('heightInput').value);
+            if (!width || !height) { alert('Enter valid width and height'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    document.getElementById('preview').innerHTML = `
+                        <p>✅ Resized!</p>
+                        <img src="${canvas.toDataURL('image/png')}" alt="Resized Image">
+                        <br><br>
+                        <a href="${canvas.toDataURL('image/png')}" download="resized.png" style="background:#28a745;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;">⬇️ Download</a>
+                    `;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>

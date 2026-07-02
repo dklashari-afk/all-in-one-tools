@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        textarea, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; }
+        textarea { height: 100px; }
+        button { background: #667eea; color: white; border: none; cursor: pointer; }
+        button:hover { background: #5a67d8; }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-group button { flex: 1; min-width: 100px; }
+        .result { padding: 15px; background: #f8f9fa; border-radius: 8px; margin-top: 15px; white-space: pre-wrap; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔤 Case Converter</h1>
+        <p>Text ko UPPER, lower, ya Title Case mein badle</p>
+        <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+        <div class="btn-group">
+            <button onclick="convertCase('upper')">UPPER CASE</button>
+            <button onclick="convertCase('lower')">lower case</button>
+            <button onclick="convertCase('title')">Title Case</button>
+            <button onclick="convertCase('sentence')">Sentence case</button>
+        </div>
+        <div class="result" id="result">Result will appear here</div>
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    <script>
+        function convertCase(type) {
+            const input = document.getElementById('textInput').value;
+            if (!input) { document.getElementById('result').textContent = 'Please enter some text'; return; }
+            let output;
+            switch(type) {
+                case 'upper': output = input.toUpperCase(); break;
+                case 'lower': output = input.toLowerCase(); break;
+                case 'title': output = input.replace(/\b\w/g, l => l.toUpperCase()); break;
+                case 'sentence': output = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase(); break;
+            }
+            document.getElementById('result').textContent = output;
+        }
+    </script>
+</body>
+</html>

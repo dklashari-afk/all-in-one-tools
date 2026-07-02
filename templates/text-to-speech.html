@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            font-size: 16px;
+            height: 130px;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        select {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .btn-group button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-speak {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-speak:hover {
+            transform: scale(1.02);
+        }
+        
+        .btn-stop {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .btn-stop:hover {
+            transform: scale(1.02);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #f3f4f6;
+            color: #1f2937;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #f9fafb;
+            color: #6b7280;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .status.active {
+            display: block;
+        }
+        
+        .status.speaking {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .fa-solid {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 Text to Speech</h1>
+        <p class="subtitle">Text likhein aur sunnein — browser ki built-in voices ke saath</p>
+        
+        <textarea id="textInput" placeholder="Enter text to speak...">Assalam-o-Alaikum! Welcome to our tools website. Aap ki awaz sunai de rahi hai.</textarea>
+        
+        <select id="voiceSelect">
+            <option value="">Loading voices...</option>
+        </select>
+        
+        <div class="btn-group">
+            <button class="btn-speak" onclick="speakText()">▶️ Speak</button>
+            <button class="btn-stop" onclick="stopSpeech()">⏹️ Stop</button>
+        </div>
+        
+        <div class="status" id="status">Ready</div>
+        
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    
+    <script>
+        // ============================================================
+        // TEXT TO SPEECH - Browser Built-in Voices
+        // ============================================================
+        
+        let synth = window.speechSynthesis;
+        let voices = [];
+        let currentUtterance = null;
+        let isSpeaking = false;
+        
+        const statusEl = document.getElementById('status');
+        const voiceSelect = document.getElementById('voiceSelect');
+        
+        // ===== Load Voices =====
+        function loadVoices() {
+            voices = synth.getVoices();
+            
+            if (voices.length === 0) {
+                voiceSelect.innerHTML = '<option value="">No voices found</option>';
+                return;
+            }
+            
+            voiceSelect.innerHTML = '';
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelect.appendChild(option);
+            });
+            
+            // Try to select an English voice by default
+            for (let i = 0; i < voices.length; i++) {
+                if (voices[i].lang.startsWith('en')) {
+                    voiceSelect.value = i;
+                    break;
+                }
+            }
+        }
+        
+        // ===== Handle Voice Loading (Works in Chrome, Edge, Firefox) =====
+        if (synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = loadVoices;
+        }
+        
+        // Fallback: Try loading after a short delay
+        setTimeout(() => {
+            if (voices.length === 0) {
+                loadVoices();
+            }
+        }, 500);
+        
+        // ===== Speak Text =====
+        function speakText() {
+            const text = document.getElementById('textInput').value.trim();
+            
+            if (!text) {
+                showStatus('⚠️ Please enter some text to speak', '');
+                return;
+            }
+            
+            // Cancel any ongoing speech
+            stopSpeech();
+            
+            // Create utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            
+            // Set voice
+            const selectedIndex = parseInt(voiceSelect.value);
+            if (!isNaN(selectedIndex) && voices[selectedIndex]) {
+                utterance.voice = voices[selectedIndex];
+            }
+            
+            // Events
+            utterance.onstart = function() {
+                isSpeaking = true;
+                showStatus('🔊 Speaking...', 'speaking');
+            };
+            
+            utterance.onend = function() {
+                isSpeaking = false;
+                showStatus('✅ Done!', '');
+            };
+            
+            utterance.onerror = function(event) {
+                isSpeaking = false;
+                if (event.error !== 'canceled') {
+                    showStatus('❌ Error: ' + event.error, '');
+                } else {
+                    showStatus('⏹️ Stopped', '');
+                }
+            };
+            
+            currentUtterance = utterance;
+            synth.speak(utterance);
+        }
+        
+        // ===== Stop Speech =====
+        function stopSpeech() {
+            if (synth.speaking || synth.pending) {
+                synth.cancel();
+            }
+            isSpeaking = false;
+            currentUtterance = null;
+            showStatus('⏹️ Stopped', '');
+        }
+        
+        // ===== Show Status =====
+        function showStatus(message, className) {
+            statusEl.textContent = message;
+            statusEl.className = 'status active' + (className ? ' ' + className : '');
+        }
+        
+        // ===== Enter Key Support =====
+        document.getElementById('textInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.shiftKey) {
+                e.preventDefault();
+                speakText();
+            }
+        });
+        
+        // ===== Initial Status =====
+        setTimeout(() => {
+            showStatus('🎤 Ready — press Speak or Shift+Enter', '');
+        }, 1000);
+        
+        console.log('🔊 Text to Speech loaded!');
+        console.log('📌 Voices available:', voices.length);
+    </script>
+</body>
+</html>

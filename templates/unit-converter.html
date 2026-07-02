@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        select, input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; }
+        button { background: #667eea; color: white; border: none; cursor: pointer; }
+        button:hover { background: #5a67d8; }
+        .result { font-size: 24px; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px; margin-top: 15px; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📏 Unit Converter</h1>
+        <p>Length, Weight, aur Temperature convert karein</p>
+        <select id="category">
+            <option value="length">Length</option>
+            <option value="weight">Weight</option>
+            <option value="temperature">Temperature</option>
+        </select>
+        <select id="fromUnit"></select>
+        <select id="toUnit"></select>
+        <input type="number" id="valueInput" placeholder="Enter value" step="any">
+        <button onclick="convert()">Convert</button>
+        <div class="result" id="result">Result</div>
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    <script>
+        const units = {
+            length: { meter: 1, kilometer: 1000, centimeter: 0.01, millimeter: 0.001, mile: 1609.34, yard: 0.9144, foot: 0.3048, inch: 0.0254 },
+            weight: { kilogram: 1, gram: 0.001, milligram: 0.000001, pound: 0.453592, ounce: 0.0283495 },
+            temperature: {} // Special handling
+        };
+
+        function populateUnits() {
+            const category = document.getElementById('category').value;
+            const fromSelect = document.getElementById('fromUnit');
+            const toSelect = document.getElementById('toUnit');
+            const unitNames = Object.keys(units[category]);
+            fromSelect.innerHTML = '';
+            toSelect.innerHTML = '';
+            unitNames.forEach(u => {
+                fromSelect.innerHTML += `<option value="${u}">${u}</option>`;
+                toSelect.innerHTML += `<option value="${u}">${u}</option>`;
+            });
+        }
+        populateUnits();
+        document.getElementById('category').addEventListener('change', populateUnits);
+
+        function convert() {
+            const category = document.getElementById('category').value;
+            const from = document.getElementById('fromUnit').value;
+            const to = document.getElementById('toUnit').value;
+            const value = parseFloat(document.getElementById('valueInput').value);
+            if (isNaN(value)) { document.getElementById('result').textContent = 'Please enter a valid number'; return; }
+            let result;
+            if (category === 'temperature') {
+                if (from === 'celsius' && to === 'fahrenheit') result = (value * 9/5) + 32;
+                else if (from === 'fahrenheit' && to === 'celsius') result = (value - 32) * 5/9;
+                else if (from === 'celsius' && to === 'kelvin') result = value + 273.15;
+                else if (from === 'kelvin' && to === 'celsius') result = value - 273.15;
+                else result = value;
+            } else {
+                const inBase = value * units[category][from];
+                result = inBase / units[category][to];
+            }
+            document.getElementById('result').textContent = `${value} ${from} = ${result.toFixed(4)} ${to}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Word</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; }
+        button { background: #667eea; color: white; border: none; cursor: pointer; }
+        button:hover { background: #5a67d8; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; }
+        #status { text-align: center; margin-top: 10px; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 PDF to Word</h1>
+        <p>PDF upload karein aur Word document download karein</p>
+        <input type="file" id="pdfInput" accept=".pdf">
+        <button onclick="convertPDF()">Convert to Word</button>
+        <div id="status">Select a PDF file</div>
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    <script>
+        async function convertPDF() {
+            const file = document.getElementById('pdfInput').files[0];
+            if (!file) { alert('Please select a PDF file'); return; }
+            const formData = new FormData();
+            formData.append('pdf', file);
+            document.getElementById('status').textContent = '⏳ Converting...';
+            try {
+                const response = await fetch('/convert-pdf-to-word', { method: 'POST', body: formData });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'converted.docx';
+                    link.click();
+                    document.getElementById('status').textContent = '✅ Conversion complete! Downloading...';
+                } else {
+                    const data = await response.json();
+                    document.getElementById('status').textContent = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('status').textContent = '❌ ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        textarea { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; height: 150px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin: 15px 0; }
+        .stat-box { background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-box .number { font-size: 28px; font-weight: bold; color: #667eea; }
+        .stat-box .label { font-size: 12px; color: #888; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Word Counter</h1>
+        <p>Text daalein aur words/characters count karein</p>
+        <textarea id="textInput" placeholder="Enter your text here..." oninput="countWords()"></textarea>
+        <div class="stats">
+            <div class="stat-box"><div class="number" id="wordCount">0</div><div class="label">Words</div></div>
+            <div class="stat-box"><div class="number" id="charCount">0</div><div class="label">Characters</div></div>
+            <div class="stat-box"><div class="number" id="charNoSpace">0</div><div class="label">Chars (no spaces)</div></div>
+            <div class="stat-box"><div class="number" id="sentenceCount">0</div><div class="label">Sentences</div></div>
+        </div>
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    <script>
+        function countWords() {
+            const text = document.getElementById('textInput').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            const charsNoSpace = text.replace(/\s/g, '').length;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            document.getElementById('wordCount').textContent = words;
+            document.getElementById('charCount').textContent = chars;
+            document.getElementById('charNoSpace').textContent = charsNoSpace;
+            document.getElementById('sentenceCount').textContent = sentences;
+        }
+    </script>
+</body>
+</html>

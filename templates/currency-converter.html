@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+        h1 { font-size: 28px; font-weight: 700; color: #1f2937; }
+        input, select, button { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid #e5e7eb; font-size: 16px; }
+        button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; cursor: pointer; font-weight: 600; transition: transform 0.2s; }
+        button:hover { transform: scale(1.02); }
+        .result { font-size: 32px; font-weight: 700; text-align: center; padding: 20px; background: #f9fafb; border-radius: 10px; margin-top: 15px; color: #1f2937; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background: #f3f4f6; color: #1f2937; text-decoration: none; border-radius: 10px; }
+        .rate-info { text-align: center; color: #6b7280; font-size: 14px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💱 Currency Converter</h1>
+        <p>Real-time exchange rates (simulated)</p>
+        
+        <input type="number" id="amount" placeholder="Enter amount" value="1" step="any">
+        <select id="fromCurrency">
+            <option value="USD">USD - US Dollar</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP">GBP - British Pound</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="PKR" selected>PKR - Pakistani Rupee</option>
+            <option value="AED">AED - UAE Dirham</option>
+            <option value="SAR">SAR - Saudi Riyal</option>
+        </select>
+        <select id="toCurrency">
+            <option value="USD" selected>USD - US Dollar</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP">GBP - British Pound</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="PKR">PKR - Pakistani Rupee</option>
+            <option value="AED">AED - UAE Dirham</option>
+            <option value="SAR">SAR - Saudi Riyal</option>
+        </select>
+        <button onclick="convertCurrency()">Convert</button>
+        <div class="result" id="result">💵 1 USD = 278 PKR</div>
+        <div class="rate-info" id="rateInfo">Rate: 1 USD = 278 PKR</div>
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    <script>
+        // Simulated exchange rates (base: USD)
+        const rates = {
+            USD: 1, EUR: 0.92, GBP: 0.79, INR: 83.5, PKR: 278, AED: 3.67, SAR: 3.75
+        };
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+            
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById('result').textContent = '❌ Enter valid amount';
+                return;
+            }
+            
+            const inUSD = amount / rates[from];
+            const result = inUSD * rates[to];
+            
+            document.getElementById('result').textContent = `${amount} ${from} = ${result.toFixed(2)} ${to}`;
+            document.getElementById('rateInfo').textContent = `Rate: 1 ${from} = ${(rates[to]/rates[from]).toFixed(4)} ${to}`;
+        }
+    </script>
+</body>
+</html>

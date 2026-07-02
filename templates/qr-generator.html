@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; }
+        button { background: #667eea; color: white; border: none; cursor: pointer; }
+        button:hover { background: #5a67d8; }
+        #qrResult { text-align: center; margin-top: 20px; }
+        #qrResult img { max-width: 100%; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 QR Code Generator</h1>
+        <p>URL ya text daalein aur QR code banayein</p>
+        <input type="text" id="qrInput" placeholder="URL ya text paste karein...">
+        <button onclick="generateQR()">Generate QR Code</button>
+        <div id="qrResult"></div>
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+    <script>
+        async function generateQR() {
+            const data = document.getElementById('qrInput').value.trim();
+            if (!data) { alert('Please enter URL or text'); return; }
+            document.getElementById('qrResult').innerHTML = '<p>Generating...</p>';
+            try {
+                const formData = new FormData();
+                formData.append('data', data);
+                const response = await fetch('/generate-qr', { method: 'POST', body: formData });
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('qrResult').innerHTML = `<img src="data:image/png;base64,${result.image}" alt="QR Code">`;
+                } else {
+                    document.getElementById('qrResult').innerHTML = `<p style="color:red;">❌ ${result.error}</p>`;
+                }
+            } catch (error) {
+                document.getElementById('qrResult').innerHTML = `<p style="color:red;">❌ ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

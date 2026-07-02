@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 18px;
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* ===== TOOLS GRID ===== */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #1f2937;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            border: 1px solid #f3f4f6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+            border-color: #667eea;
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-card .icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 12px;
+            color: #667eea;
+        }
+
+        .tool-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1f2937;
+        }
+
+        .tool-card p {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #9ca3af;
+            font-size: 14px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+                padding: 0 12px;
+            }
+            .tool-card {
+                padding: 20px 12px;
+            }
+            .tool-card .icon {
+                font-size: 28px;
+            }
+            .tool-card h3 {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .tools-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .tool-card {
+                padding: 16px 10px;
+            }
+            .tool-card .icon {
+                font-size: 24px;
+            }
+            .tool-card h3 {
+                font-size: 12px;
+            }
+            .tool-card p {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛠️ All-in-One Tools</h1>
+        <p>10+ utility tools — 100% free, no signup, no uploads</p>
+        <span class="badge">✨ 100% Free</span>
+    </div>
+
+    <div class="tools-grid">
+        <a href="/qr-generator" class="tool-card">
+            <span class="icon"><i class="fas fa-qrcode"></i></span>
+            <h3>QR Code Generator</h3>
+            <p>URL se QR code banayein</p>
+        </a>
+
+        <a href="/image-resizer" class="tool-card">
+            <span class="icon"><i class="fas fa-expand-arrows-alt"></i></span>
+            <h3>Image Resizer</h3>
+            <p>Photo ka size change karein</p>
+        </a>
+
+        <a href="/image-converter" class="tool-card">
+            <span class="icon"><i class="fas fa-exchange-alt"></i></span>
+            <h3>Image Converter</h3>
+            <p>PNG ↔ JPG ↔ WEBP</p>
+        </a>
+
+        <a href="/unit-converter" class="tool-card">
+            <span class="icon"><i class="fas fa-ruler"></i></span>
+            <h3>Unit Converter</h3>
+            <p>Length, Weight, Temperature</p>
+        </a>
+
+        <a href="/age-calculator" class="tool-card">
+            <span class="icon"><i class="fas fa-cake-candles"></i></span>
+            <h3>Age Calculator</h3>
+            <p>Date of birth se age</p>
+        </a>
+
+        <a href="/case-converter" class="tool-card">
+            <span class="icon"><i class="fas fa-font"></i></span>
+            <h3>Case Converter</h3>
+            <p>UPPER/lower/Title Case</p>
+        </a>
+
+        <a href="/password-generator" class="tool-card">
+            <span class="icon"><i class="fas fa-key"></i></span>
+            <h3>Password Generator</h3>
+            <p>Strong password banayein</p>
+        </a>
+
+        <a href="/word-counter" class="tool-card">
+            <span class="icon"><i class="fas fa-file-alt"></i></span>
+            <h3>Word Counter</h3>
+            <p>Words, characters count</p>
+        </a>
+
+        <a href="/pdf-to-word" class="tool-card">
+            <span class="icon"><i class="fas fa-file-pdf"></i></span>
+            <h3>PDF to Word</h3>
+            <p>PDF ko Word mein badle</p>
+        </a>
+
+        <a href="/pdf-compressor" class="tool-card">
+            <span class="icon"><i class="fas fa-file-archive"></i></span>
+            <h3>PDF Compressor</h3>
+            <p>PDF size kam karein</p>
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 All-in-One Tools · Made with <i class="fas fa-heart" style="color:#ef4444;"></i></p>
+    </div>
+</body>
+</html>

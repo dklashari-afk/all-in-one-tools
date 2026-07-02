@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+        
+        .tool-card .icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .tool-card h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .tool-card p {
+            font-size: 12px;
+            color: #888;
+            margin: 0;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            opacity: 0.7;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 28px;
+            }
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .tool-card {
+                padding: 15px 10px;
+            }
+            .tool-card .icon {
+                font-size: 32px;
+            }
+            .tool-card h3 {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== HEADER WITH LOGO ===== -->
+        <div style="text-align: center; padding: 20px 0 10px 0;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);">
+                    🛠️
+                </div>
+                <div>
+                    <h1 style="font-size: 36px; margin: 0; color: #1f2937; font-weight: 800;">ToolHub</h1>>ToolHub</h1>
+                    <p style="margin: 0; color: #6b7280; font-size: 14px;">15+ Utility Tools — 100% Free</p>
+                </div>
+            </div>
+            <div style="margin-top: 8px;">
+                <span style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;">✨ 100% Free</span>
+                <span style="display: inline-block; background: #22c55e; color: white; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 8px;">🚀 No Signup</span>
+            </div>
+        </div>
+        
+        <div class="tools-grid">
+            <a href="/qr-generator" class="tool-card">
+                <span class="icon">📱</span>
+                <h3>QR Code Generator</h3>
+                <p>URL se QR code banayein</p>
+            </a>
+            
+            <a href="/image-resizer" class="tool-card">
+                <span class="icon">🖼️</span>
+                <h3>Image Resizer</h3>
+                <p>Photo ka size change karein</p>
+            </a>
+            
+            <a href="/image-converter" class="tool-card">
+                <span class="icon">🔄</span>
+                <h3>Image Converter</h3>
+                <p>PNG ↔ JPG ↔ WEBP</p>
+            </a>
+            
+            <a href="/unit-converter" class="tool-card">
+                <span class="icon">📏</span>
+                <h3>Unit Converter</h3>
+                <p>Length, Weight, Temperature</p>
+            </a>
+            
+            <a href="/age-calculator" class="tool-card">
+                <span class="icon">🎂</span>
+                <h3>Age Calculator</h3>
+                <p>Date of birth se age</p>
+            </a>
+            
+            <a href="/case-converter" class="tool-card">
+                <span class="icon">🔤</span>
+                <h3>Case Converter</h3>
+                <p>UPPER/lower/Title Case</p>
+            </a>
+            
+            <a href="/password-generator" class="tool-card">
+                <span class="icon">🔑</span>
+                <h3>Password Generator</h3>
+                <p>Strong password banayein</p>
+            </a>
+            
+            <a href="/word-counter" class="tool-card">
+                <span class="icon">📝</span>
+                <h3>Word Counter</h3>
+                <p>Words, characters count</p>
+            </a>
+            
+            <a href="/pdf-to-word" class="tool-card">
+                <span class="icon">📄</span>
+                <h3>PDF to Word</h3>
+                <p>PDF ko Word mein badle</p>
+            </a>
+            
+            <a href="/pdf-compressor" class="tool-card">
+                <span class="icon">📦</span>
+                <h3>PDF Compressor</h3>
+                <p>PDF size kam karein</p>
+            </a>
+            <a href="/currency-converter" class="tool-card">
+    <span class="icon"><i class="fas fa-coins"></i></span>
+    <h3>Currency Converter</h3>
+    <p>Real-time exchange rates</p>
+</a>
+<a href="/bmi-calculator" class="tool-card">
+    <span class="icon"><i class="fas fa-weight"></i></span>
+    <h3>BMI Calculator</h3>
+    <p>Body Mass Index check</p>
+</a>
+<a href="/text-to-speech" class="tool-card">
+    <span class="icon"><i class="fas fa-volume-up"></i></span>
+    <h3>Text to Speech</h3>
+    <p>Text ko sunnein</p>
+</a>
+<a href="/notes" class="tool-card">
+    <span class="icon"><i class="fas fa-sticky-note"></i></span>
+    <h3>Notes / Todo</h3>
+    <p>Apni notes likhein aur save karein</p>
+</a>
+<a href="/random-number" class="tool-card">
+    <span class="icon"><i class="fas fa-dice"></i></span>
+    <h3>Random Number</h3>
+    <p>Kisi bhi range mein random number</p>
+</a>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 All-in-One Tools | Made with ❤️</p>
+        </div>
+    </div>
+</body>
+</html>

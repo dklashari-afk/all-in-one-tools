@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); text-align: center; }
+        h1 { font-size: 28px; font-weight: 700; color: #1f2937; }
+        .number-display { font-size: 80px; font-weight: 800; color: #667eea; padding: 20px; background: #f9fafb; border-radius: 16px; margin: 20px 0; }
+        .input-row { display: flex; gap: 10px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .input-row input { width: 100px; padding: 12px; border-radius: 10px; border: 1px solid #e5e7eb; font-size: 16px; text-align: center; }
+        .input-row label { font-size: 14px; color: #6b7280; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        button { padding: 14px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button:hover { transform: scale(1.02); }
+        .history { margin-top: 20px; padding: 15px; background: #f9fafb; border-radius: 10px; text-align: left; }
+        .history h3 { font-size: 14px; color: #6b7280; margin-bottom: 10px; }
+        .history .nums { display: flex; flex-wrap: wrap; gap: 8px; }
+        .history .nums span { background: white; padding: 6px 12px; border-radius: 6px; border: 1px solid #e5e7eb; font-size: 14px; color: #1f2937; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background: #f3f4f6; color: #1f2937; text-decoration: none; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Random Number Generator</h1>
+        <p>Min aur Max ke beech random number generate karein</p>
+
+        <div class="input-row">
+            <label>Min <input type="number" id="minVal" value="1" /></label>
+            <label>Max <input type="number" id="maxVal" value="100" /></label>
+        </div>
+
+        <div class="number-display" id="result">?</div>
+
+        <button onclick="generateNumber()">🎲 Generate</button>
+
+        <div class="history">
+            <h3>📜 History (last 10)</h3>
+            <div class="nums" id="historyList"><span>Generate some numbers</span></div>
+        </div>
+
+        <a href="/" class="back-btn">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        let history = [];
+
+        function generateNumber() {
+            const min = parseInt(document.getElementById('minVal').value) || 1;
+            const max = parseInt(document.getElementById('maxVal').value) || 100;
+
+            if (min >= max) {
+                alert('Max should be greater than Min');
+                return;
+            }
+
+            const num = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('result').textContent = num;
+
+            history.push(num);
+            if (history.length > 10) history.shift();
+
+            const container = document.getElementById('historyList');
+            container.innerHTML = history.map(n => `<span>${n}</span>`).join('');
+        }
+
+        // Generate initial number on load
+        generateNumber();
+    </script>
+</body>
+</html>
